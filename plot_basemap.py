@@ -238,7 +238,7 @@ if __name__ == "__main__":
 		#__________________________Monthly Observation Animation:
 		if animation:
 			print "Generating Animation! This can take a while..."
-			for i in range(24,monthly_obs.shape[0]):
+			for i in range(600,monthly_obs.shape[0]):
 				animation_obs = monthly_obs[i-24:i,:,:]
 				new_plot(long_obs,lat_obs,animation_obs.sum(axis=0),"Daily_Rainfall_from_start %s"%str(i).zfill(3))
 			print "Generating Animation! This can take a while..."
