@@ -12,6 +12,8 @@ import netCDF4 as nc
 import wrf
 import warnings
 import sys,time
+from IPython import embed
+
 def platform_judge():
 	import platform
 	if str(platform.architecture()).find("Windows")>0:
@@ -21,7 +23,7 @@ def platform_judge():
 	    data_path = "./"
 	    print "Runnign on Linux..."
 	return data_path
-def rain(name):
+def rain(name,dataset):
     pres = dataset.variables[name]
     pres = pres[:,:,:]
     return pres
@@ -40,7 +42,15 @@ def new_plot(longitude,latitude,rain,my_title):
         if my_title.find("d02")>0:
 		global innermap
 		innermap = map
-	map.contourf(x,y,rain,90,cmap="gist_ncar_r")#gist_ncar_r")#cmap ok: ocean_r,spectral_r
+        #embed()
+        if my_title.find("Hourly")>=0:
+            max_this = 16.0
+        elif my_title.find("Daily")>=0:
+            max_this = 50.0
+        else:
+            max_this = 150.0
+        rain[np.where(rain>max_this)] = max_this
+	map.contourf(x,y,rain,180,cmap="gist_ncar_r",vmin=0,vmax=max_this)#gist_ncar_r")#cmap ok: ocean_r,spectral_r
 	map.colorbar()
 	map.drawcoastlines()
 	map.drawcountries()
@@ -74,8 +84,8 @@ def WRF(wrfout):
 	TIME = dataset.variables['Times'] #20130813:00 6hours'
 	CLONG = dataset.variables['XLONG'][-1,:,:]
 	CLAT = dataset.variables['XLAT'][-1,:,:]
-	rainnc = rain("RAINNC")
-	rainc = rain('RAINC')
+	rainnc = rain("RAINNC",dataset)
+	rainc = rain('RAINC',dataset)
 	#6hourly data in wrfout: i and i-4 is a day
 	i = 4  
 	pres_wrfout_start = rainnc[i-4,:,:] + rainc[i-4,:,:]
@@ -189,9 +199,9 @@ if __name__ == "__main__":
 	warnings.filterwarnings("ignore")
 	global plot_map,animation
 	plot_map = True
-	plot_map = False
+	#plot_map = False
 	animation = True
-	animation = False
+	#animation = False
 	if not plot_map:
 	    print "For some reason, we don't plot now......................................."
 	projection_method = "gnom"# (curlly)#projection_method = "cyl"# or gnom (curlly)
@@ -227,6 +237,10 @@ if __name__ == "__main__":
 		new_plot(CLONG_D02,CLAT_D02,abs(new_obs-WRFOUT_P_D02.sum(axis=0)),"%s_residual_observation_vs_%s"%(case_name,mode))
 		#__________________________Monthly Observation Animation:
 		if animation:
+			print "Generating Animation! This can take a while..."
+			for i in range(24,monthly_obs.shape[0]):
+				animation_obs = monthly_obs[i-24:i,:,:]
+				new_plot(long_obs,lat_obs,animation_obs.sum(axis=0),"Daily_Rainfall_from_start %s"%str(i).zfill(3))
 			print "Generating Animation! This can take a while..."
 			for i in range(1,monthly_obs.shape[0]):
 				animation_obs = monthly_obs[i-1:i,:,:]
