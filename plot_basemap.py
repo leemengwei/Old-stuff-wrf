@@ -123,8 +123,9 @@ def get_rain_obs_x_y_z(data_path,case_name,mode,simulation_days):
 	
 	f = nc.Dataset(data_path+"wrfout_d01_%s_%s"%(case_name,mode))
 	if case_name != "Rumbia":
-	    start_day = int(str(wrf.getvar(f,'Times')).split('-')[2].split("T")[0]) - 1
-	    start_hour = int(str(wrf.getvar(f,'Times')).split('-')[2].split("T")[1].split(":")[0])
+	    #embed()
+	    start_day = int(str(wrf.getvar(f,'Times').data).split('-')[2].split("T")[0]) - 1
+	    start_hour = int(str(wrf.getvar(f,'Times').data).split('-')[2].split("T")[1].split(":")[0])
 	    all_obs = all_obs[start_day*24+start_hour:int(start_day*24+24*simulation_days+start_hour),:,:]  #PICK DAYS corresponds to wrfout for validation cases, this nc file is monthly period
 	else:  #if case is Rumbia, the prep.nc (all_obs now) is just for event period
 	    all_obs = all_obs[:,:,:] #
