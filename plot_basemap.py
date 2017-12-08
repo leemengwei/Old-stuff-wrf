@@ -202,7 +202,7 @@ if __name__ == "__main__":
 	plot_map = True
 	plot_map = False
 	animation = True
-	animation = False
+	animation = False  #
 	if not plot_map:
 	    print "For some reason, we don't plot now......................................."
 	projection_method = "gnom"# (curlly)#projection_method = "cyl"# or gnom (curlly)
