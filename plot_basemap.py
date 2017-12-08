@@ -42,7 +42,6 @@ def new_plot(longitude,latitude,rain,my_title):
         if my_title.find("d02")>0:
 		global innermap
 		innermap = map
-        #embed()
         if my_title.find("Hourly")>=0:
             max_this = 16.0
         elif my_title.find("Daily")>=0:
@@ -50,6 +49,7 @@ def new_plot(longitude,latitude,rain,my_title):
         else:
             max_this = 150.0
         rain[np.where(rain>max_this)] = max_this
+	#embed()
 	map.contourf(x,y,rain,180,cmap="gist_ncar_r",vmin=0,vmax=max_this)#gist_ncar_r")#cmap ok: ocean_r,spectral_r
 	map.colorbar()
 	map.drawcoastlines()
@@ -108,7 +108,7 @@ def WRF(wrfout):
 	return CLONG,CLAT,np.array([pres_wrfout_day1,pres_wrfout_day2,pres_wrfout_day3]),U,V
 def get_rain_obs_x_y_z(data_path,case_name,mode,simulation_days):
 	#_____________________________OBS, x,y are the true  lat/lon of obs; z is the Total percipitation.
-	obs_Others = nc.Dataset(data_path+'prep_201308.nc')
+	obs_Others = nc.Dataset(data_path+'prep_201308new.nc')
 	obs_Rumbia = nc.Dataset(data_path+'prep_20130630_0703.nc')
 	if case_name == "Rumbia":
 	    obs = obs_Rumbia
@@ -200,9 +200,9 @@ if __name__ == "__main__":
 	warnings.filterwarnings("ignore")
 	global plot_map,animation
 	plot_map = True
-	#plot_map = False
+	plot_map = False
 	animation = True
-	#animation = False
+	animation = False
 	if not plot_map:
 	    print "For some reason, we don't plot now......................................."
 	projection_method = "gnom"# (curlly)#projection_method = "cyl"# or gnom (curlly)
@@ -227,23 +227,25 @@ if __name__ == "__main__":
 	#Start plot:
 	if plot_map:
 		#__________________________FIG2: WRF_D02
-		new_plot(CLONG_D02,CLAT_D02,WRFOUT_P_D02.sum(axis=0),"%s_WRF_d02_%s_output"%(case_name,mode))   #pres_wrfout_day1,pres_wrfout_day2,pres_wrfout_day3 = WRFOUT_P[0],WRFOUT_P[1],WRFOUT_P[2]
+#		new_plot(CLONG_D02,CLAT_D02,WRFOUT_P_D02.sum(axis=0),"%s_WRF_d02_%s_output"%(case_name,mode))   #pres_wrfout_day1,pres_wrfout_day2,pres_wrfout_day3 = WRFOUT_P[0],WRFOUT_P[1],WRFOUT_P[2]
 		#__________________________FIG1: WRF_D01
-		new_plot(CLONG_D01,CLAT_D01,WRFOUT_P_D01.sum(axis=0),"%s_WRF_d01_%s_output"%(case_name,mode))
+#		new_plot(CLONG_D01,CLAT_D01,WRFOUT_P_D01.sum(axis=0),"%s_WRF_d01_%s_output"%(case_name,mode))
 		#__________________________FIG3: OBS WHOLE China
-		new_plot(long_obs,lat_obs,z,"%s_observation"%case_name)
+#		new_plot(long_obs,lat_obs,z,"%s_observation"%case_name)
 		#__________________________FIG4 interped OBS at WRF_D02
-		new_plot(CLONG_D02,CLAT_D02,new_obs,"%s_interpolated_observation"%case_name)
+#		new_plot(CLONG_D02,CLAT_D02,new_obs,"%s_interpolated_observation"%case_name)
 		#__________________________FIG5 |OBS-wrfout| at D02
-		new_plot(CLONG_D02,CLAT_D02,abs(new_obs-WRFOUT_P_D02.sum(axis=0)),"%s_residual_observation_vs_%s"%(case_name,mode))
+#		new_plot(CLONG_D02,CLAT_D02,abs(new_obs-WRFOUT_P_D02.sum(axis=0)),"%s_residual_observation_vs_%s"%(case_name,mode))
 		#__________________________Monthly Observation Animation:
 		if animation:
-			print "Generating Animation! This can take a while..."
-			for i in range(600,monthly_obs.shape[0]):
+			print "Generating Animation Daily! This can take a while..."
+			for i in range(603,monthly_obs.shape[0]):
+				print round((i*1.0/monthly_obs.shape[0])*100.0,2),"%"
 				animation_obs = monthly_obs[i-24:i,:,:]
 				new_plot(long_obs,lat_obs,animation_obs.sum(axis=0),"Daily_Rainfall_from_start %s"%str(i).zfill(3))
-			print "Generating Animation! This can take a while..."
+			print "Generating Animation Hourly! This can take a while..."
 			for i in range(1,monthly_obs.shape[0]):
+				print round((i*1.0/monthly_obs.shape[0])*100.0,2),"%"
 				animation_obs = monthly_obs[i-1:i,:,:]
 				new_plot(long_obs,lat_obs,animation_obs.sum(axis=0),"Hourly_Rainfall_from_start %s"%str(i).zfill(3))
 
