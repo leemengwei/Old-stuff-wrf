@@ -309,7 +309,12 @@ if __name__ == "__main__":
 	print "Speed_%s_improved: %s%% from %s to %s"%(case_name,value,error_speed_def.mean(),error_speed_opt.mean())
 	value = plot_seq(pressure_this,pressure_seq_def,error_pressure_def,pressure_seq_opt,error_pressure_opt,"%s_Minimum_Pressure_6_hourly"%case_name)
 	print "Pressure_%s_improved: %s%% from %s to %s"%(case_name,value,error_pressure_def.mean(),error_pressure_opt.mean())
-        Cumulative_error = abs(new_obs-WRFOUT_P_D02.sum(axis=0)).sum()/np.where(abs(new_obs-WRFOUT_P_D02.sum(axis=0)>0))[0].shape[0]/3.0
+	over_area = 0
+        for i in range(WRFOUT_P_D02.shape[1]):
+            for j in range(WRFOUT_P_D02.shape[2]):
+                if WRFOUT_P_D02.sum(axis=0)[i][j]>3.0*10.0 or new_obs[i][j]>3.0*10.0:
+		        over_area += 1
+        Cumulative_error = abs(new_obs-WRFOUT_P_D02.sum(axis=0)).sum()/over_area/3.0
 	print "%s_rainfall_cumulative_error_is: "%(case_name),Cumulative_error,"mm"
 	print "Rain_Score_%s_%s_is: "%(case_name,mode),score
 
