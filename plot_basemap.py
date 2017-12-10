@@ -13,7 +13,7 @@ import wrf
 import warnings
 import sys,time
 from IPython import embed
-
+from mpl_toolkits.mplot3d import Axes3D
 def platform_judge():
 	import platform
 	if str(platform.architecture()).find("Windows")>0:
@@ -27,6 +27,23 @@ def rain(name,dataset):
     pres = dataset.variables[name]
     pres = pres[:,:,:]
     return pres
+def cumulative_error_plot(longitude,latitude,rain,my_title):
+
+    #x,y=np.meshgrid(longitude[0,:],latitude[:,0])
+    x,y=np.meshgrid(range(rain.shape[2]),range(rain.shape[1]))
+    for i in range(rain.shape[0]):
+        fig = plt.figure()  
+        ax = Axes3D(fig)
+        ax.plot_surface(x, y, rain[0:i,:,:].sum(axis=0),rstride=5, cstride=5, cmap='rainbow')
+        #plt.set_zlim
+        plt.title("%s"%my_title.replace(mode,"model"))
+        plt.savefig("%s.png"%(my_title),dpi=200)
+        embed()
+        plt.show()
+
+
+
+
 def new_plot(longitude,latitude,rain,my_title):
 	print "Plotting map..."
 	# To get first x,y pair on the fly to do following location
@@ -200,7 +217,7 @@ if __name__ == "__main__":
 	warnings.filterwarnings("ignore")
 	global plot_map,animation
 	plot_map = True
-	plot_map = False
+	#plot_map = False
 	animation = True
 	animation = False  
 	if not plot_map:
@@ -236,6 +253,7 @@ if __name__ == "__main__":
 #		new_plot(CLONG_D02,CLAT_D02,new_obs,"%s_interpolated_observation"%case_name)
 		#__________________________FIG5 |OBS-wrfout| at D02
 #		new_plot(CLONG_D02,CLAT_D02,abs(new_obs-WRFOUT_P_D02.sum(axis=0)),"%s_residual_observation_vs_%s"%(case_name,mode))
+		#cumulative_error_plot(CLONG_D02,CLAT_D02,monthly_obs,"%s_rainfall_cumulative_error"%(case_name))
 		#__________________________Monthly Observation Animation:
 		if animation:
 			print "Generating Animation Daily! This can take a while..."
@@ -291,6 +309,7 @@ if __name__ == "__main__":
 	print "Speed_%s_improved: %s%% from %s to %s"%(case_name,value,error_speed_def.mean(),error_speed_opt.mean())
 	value = plot_seq(pressure_this,pressure_seq_def,error_pressure_def,pressure_seq_opt,error_pressure_opt,"%s_Minimum_Pressure_6_hourly"%case_name)
 	print "Pressure_%s_improved: %s%% from %s to %s"%(case_name,value,error_pressure_def.mean(),error_pressure_opt.mean())
-
+        Cumulative_error = abs(new_obs-WRFOUT_P_D02.sum(axis=0)).sum()/np.where(abs(new_obs-WRFOUT_P_D02.sum(axis=0)>0))[0].shape[0]/3.0
+	print "%s_rainfall_cumulative_error_is: "%(case_name),Cumulative_error,"mm"
 	print "Rain_Score_%s_%s_is: "%(case_name,mode),score
 
