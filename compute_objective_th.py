@@ -1,4 +1,5 @@
 #Import defs from plot_basemap.py then compute objective function.
+import numpy as np
 from plot_basemap import WRF
 from plot_basemap import get_TS
 from plot_basemap import platform_judge
@@ -12,23 +13,32 @@ def TS_wrapper(data_path,case_name,inner_domain):
 	CLONG_D02,CLAT_D02,WRFOUT_P_D02,U2,V2 = WRF(inner_domain)
 	new_obs = interp_obs(x,y,z,CLONG_D02,CLAT_D02)
 	score = get_TS(WRFOUT_P_D02,new_obs)
-	amount_error = WRFOUT_P_D02.sum() - new_obs.sum()
+	over_area = 0
+	for i in range(WRFOUT_P_D02.shape[1]):
+        	for j in range(WRFOUT_P_D02.shape[2]):
+        		if WRFOUT_P_D02.sum(axis=0)[i][j]>3.0*10.0 or new_obs[i][j]>3.0*10.0:
+				over_area += 1
+	amount_error = abs(WRFOUT_P_D02.sum() - new_obs.sum())/over_area/3.0
 	return score,amount_error
 def Speed_Pressure_wrapper(wrfout,speed_obs,pressure_obs):
 	speed_seq,pressure_seq = get_speed_pressure_seq(wrfout)
 	error_speed,error_pressure = get_seq_error(speed_obs,pressure_obs,speed_seq,pressure_seq)
 	return error_speed,error_pressure
 def loop_over_200_sensible():
+	f=open("/vol6/home/ganyj/limengwei/Objectives.txt",'w')
+	f.write("Amount_error -TS_score Pressure_error Speed_error\n")
 	for number in range(1,201):
 		data_path_model = "/vol6/home/ganyj/limengwei/case_run_0_rumbia/WRF_%s/WRF_%s/"%(number,number)
 		print "Results--------%s--------------"%number
 #		embed();
 		score,error_amount = TS_wrapper(data_path,'Rumbia',data_path_model+"wrfout_d02_2013-06-30_00:00:00")
 		print "TS score:",score
-		print "Precipitation Error:",error_amount
+		print "Cumulative Error:",error_amount,"mm"
 		error_speed,error_pressure = Speed_Pressure_wrapper(data_path_model+"wrfout_d01_2013-06-30_00:00:00",speed_Rumbia,pressure_Rumbia)
-		print "Pressure Error:",error_speed.mean()
-		print "Speed Error:",error_pressure.mean()
+		print "Pressure Error:",error_pressure.mean()
+		print "Speed Error:",error_speed.mean()
+		f.write("%s %s %s %s\n"%(round(error_amount),round(-score*100,2),round(error_pressure.mean(),2),round(error_speed.mean(),2)))
+	f.close()
 	import sys
 	sys.exit()
 if __name__ == "__main__":
@@ -45,9 +55,3 @@ if __name__ == "__main__":
 	
 	loop_over_200_sensible()
 	
-	print "Results----------------------"
-	score = TS_wrapper(data_path,case_name,wrfout2)
-	print "TS score:",score
-	error_speed,error_pressure = Speed_Pressure_wrapper(wrfout1,speed_Rumbia,pressure_Rumbia)
-	print "Pressure Error:",error_speed.mean()
-	print "Speed Error:",error_pressure.mean()
