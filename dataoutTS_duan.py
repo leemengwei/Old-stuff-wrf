@@ -9,11 +9,12 @@ ifplot = 'n'
 #from IPython import embed;embed()
 #plt.figure()
 def ts(wrfout,obs,ii):
+    
 #    print "ts in dataout is called... %s"%ii
     #print '------------------'+str(wrfout.shape)+'\n',wrfout
     #print '******************'+str(obs.shape)+'\n',obs
-    ts = abs(wrfout - obs)
-    
+    #ts = abs(wrfout - obs)
+    days = 2.0
     #TS.ncl part
     tot_Hit_ERS = 0.
     tot_Hit_CRS = 0.
@@ -53,72 +54,72 @@ def ts(wrfout,obs,ii):
     for i in range(0,sizea):
         for j in range(0,sizeb):
 
-            if(obs[i,j] > 250.):
+            if(obs[i,j] > 250.*days):
                 ERS = ERS+1
-                if(wrfout[i,j] > 250.):
+                if(wrfout[i,j] > 250.*days):
                     Hit_ERS = Hit_ERS+1
-            if(obs[i,j] > 250. or wrfout[i,j] > 250.):
+            if(obs[i,j] > 250.*days or wrfout[i,j] > 250.*days):
                 denominator_ERS = denominator_ERS+1
 
 
             #if(obs[i,j] > 50. and obs[i,j] < 250.):
-	    if(obs[i,j] > 50.):
+	    if(obs[i,j] > 50.*days):
                 CRS = CRS+1
                 #if(wrfout[i,j] > 50. and wrfout[i,j] < 250.):
-		if(wrfout[i,j] > 50.):
+		if(wrfout[i,j] > 50.*days):
                     Hit_CRS = Hit_CRS+1
             #if(obs[i,j] > 50. and obs[i,j] < 250. or wrfout[i,j] > 50. and wrfout[i,j] < 250.):
-	    if(obs[i,j] > 50. or wrfout[i,j] > 50.):
+	    if(obs[i,j] > 50.*days or wrfout[i,j] > 50.*days):
                 denominator_CRS = denominator_CRS+1
 #---------------strom above
             #if(obs[i,j] > 25. and obs[i,j] < 50.):
-	    if(obs[i,j] > 25.):
+	    if(obs[i,j] > 25.*days):
                 HR = HR+1
                 #if(wrfout[i,j] > 25. and wrfout[i,j] < 50.):
-		if(wrfout[i,j] > 25.):
+		if(wrfout[i,j] > 25.*days):
                     Hit_HR = Hit_HR+1
             #if(obs[i,j] > 25. and obs[i,j] < 50. or wrfout[i,j] > 25. and wrfout[i,j] < 50.):
-	    if(obs[i,j] > 25. or wrfout[i,j] > 25.):
+	    if(obs[i,j] > 25.*days or wrfout[i,j] > 25.*days):
                 denominator_HR = denominator_HR+1
 #-----------------heavy rain above
             #if(obs[i,j] > 10. and obs[i,j] < 25.):
-	    if(obs[i,j] > 10.):
+	    if(obs[i,j] > 10.*days):
                 MR = MR+1
                 #if(wrfout[i,j] > 10. and wrfout[i,j] < 25.):
-		if(wrfout[i,j] > 10.):
+		if(wrfout[i,j] > 10.*days):
                     Hit_MR = Hit_MR+1
             #if(obs[i,j] > 10. and obs[i,j] < 25. or wrfout[i,j] > 10. and wrfout[i,j] < 25.):
-	    if(obs[i,j] > 10. or wrfout[i,j] > 10.):
+	    if(obs[i,j] > 10.*days or wrfout[i,j] > 10.*days):
                 denominator_MR = denominator_MR+1
 #-------moderate rain above
-            if(obs[i,j] < 10.):
+            if(obs[i,j] < 10.*days):
                 LR = LR+1
-                if(wrfout[i,j] < 10.):
+                if(wrfout[i,j] < 10.*days):
                     Hit_LR = Hit_LR+1
-            if(obs[i,j] < 10. or wrfout[i,j] < 10.):
+            if(obs[i,j] < 10.*days or wrfout[i,j] < 10.*days):
                 denominator_LR = denominator_LR+1
 
 	    colored_TS = 'n'
 	    if colored_TS == 'y':
 
-                if(wrfout[i,j] > 50.):
+                if(wrfout[i,j] > 50.*days):
 			wrfout[i,j] = 999
-                if(obs[i,j] > 50.):
+                if(obs[i,j] > 50.*days):
 			obs[i,j] = 999
     
-                if(obs[i,j] > 25. and obs[i,j] < 50.):
+                if(obs[i,j] > 25.*days and obs[i,j] < 50.*days):
                 	obs[i,j] = 666
-                if(wrfout[i,j] > 25. and wrfout[i,j] < 50.):
+                if(wrfout[i,j] > 25.*days and wrfout[i,j] < 50.*days):
 	    	        wrfout[i,j] = 666
 
-                if(obs[i,j] > 10. and obs[i,j] < 25.):
+                if(obs[i,j] > 10.*days and obs[i,j] < 25.*days):
 			obs[i,j] = 333    
-		if(wrfout[i,j] > 10. and wrfout[i,j] < 25.):
+		if(wrfout[i,j] > 10.*days and wrfout[i,j] < 25.*days):
 			wrfout[i,j] = 333
 
-		if(obs[i,j] < 10.):
+		if(obs[i,j] < 10.*days):
 			obs[i,j] = 111
-		if(wrfout[i,j] < 10.):
+		if(wrfout[i,j] < 10.*days):
 			wrfout[i,j] = 111
             #print("HIT_ERS"+Hit_ERS+"HIT_CRS"+Hit_CRS+"sizea*sizeb"+sizea*sizeb+"sizea*sizeb-denominator_ERS-denominator_CRS"+(sizea*sizeb-denominator_ERS-denominator_CRS))
             #print(denominator_LR+" "+denominator_MR+" "+denominator_HR+" "+denominator_CRS+" "+denominator_ERS)
@@ -147,13 +148,13 @@ def ts(wrfout,obs,ii):
            
            # print(" ")
 
-    objective_Rainstorm_TS = (Hit_ERS+Hit_CRS)/(denominator_ERS+denominator_CRS)#tot_Hit_ERSCRS/tot_denominator_ERSCRS
+    objective_Rainstorm_TS = (Hit_ERS+Hit_CRS)/(denominator_ERS+denominator_CRS+0.1)#tot_Hit_ERSCRS/tot_denominator_ERSCRS
            # print("TOT_HIT_HR/TOT"+tot_Hit_HR/tot_denominator_HR)
-    objective_HeavyRain_TS = Hit_HR/denominator_HR#tot_Hit_HR/tot_denominator_HR
+    objective_HeavyRain_TS = Hit_HR/(denominator_HR+0.1)#tot_Hit_HR/tot_denominator_HR
            # print("TOT_HIT_MR/TOT"+tot_Hit_MR/tot_denominator_MR)
-    objective_ModerateRain_TS = Hit_MR/denominator_MR#tot_Hit_MR/tot_denominator_MR
+    objective_ModerateRain_TS = Hit_MR/(denominator_MR+0.1)#tot_Hit_MR/tot_denominator_MR
            # print("TOT_HIT_LR/TOT"+tot_Hit_LR/tot_denominator_LR)
-    objective_LightRain_TS = Hit_LR/denominator_LR#tot_Hit_LR/tot_denominator_LR
+    objective_LightRain_TS = Hit_LR/(denominator_LR+0.1)#tot_Hit_LR/tot_denominator_LR
 
     grids_evaluated = denominator_CRS+denominator_HR+denominator_MR+denominator_LR
     weight_rs = denominator_CRS/grids_evaluated
