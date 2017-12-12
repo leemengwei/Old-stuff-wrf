@@ -38,7 +38,7 @@ def cumulative_error_plot(longitude,latitude,rain,my_title):
         #plt.set_zlim
         plt.title("%s"%my_title.replace(mode,"model"))
         plt.savefig("%s.png"%(my_title),dpi=200)
-        embed()
+        #embed()
         plt.show()
 
 
@@ -125,7 +125,7 @@ def WRF(wrfout):
 	return CLONG,CLAT,np.array([pres_wrfout_day1,pres_wrfout_day2,pres_wrfout_day3]),U,V
 def get_rain_obs_x_y_z(data_path,case_name,mode,simulation_days):
 	#_____________________________OBS, x,y are the true  lat/lon of obs; z is the Total percipitation.
-	obs_Others = nc.Dataset(data_path+'prep_201308new.nc')
+	obs_Others = nc.Dataset(data_path+'prep_201308.nc')
 	obs_Rumbia = nc.Dataset(data_path+'prep_20130630_0703.nc')
 	if case_name == "Rumbia":
 	    obs = obs_Rumbia
@@ -140,9 +140,9 @@ def get_rain_obs_x_y_z(data_path,case_name,mode,simulation_days):
 	
 	f = nc.Dataset(data_path+"wrfout_d01_%s_%s"%(case_name,mode))
 	if case_name != "Rumbia":
-	    #embed()
-	    start_day = int(str(wrf.getvar(f,'Times').data).split('-')[2].split("T")[0]) - 1
-	    start_hour = int(str(wrf.getvar(f,'Times').data).split('-')[2].split("T")[1].split(":")[0])
+#	    embed()
+	    start_day = int(str(wrf.getvar(f,'Times')).split('-')[2].split("T")[0]) - 1
+	    start_hour = int(str(wrf.getvar(f,'Times')).split('-')[2].split("T")[1].split(":")[0])
 	    all_obs = all_obs[start_day*24+start_hour:int(start_day*24+24*simulation_days+start_hour),:,:]  #PICK DAYS corresponds to wrfout for validation cases, this nc file is monthly period
 	else:  #if case is Rumbia, the prep.nc (all_obs now) is just for event period
 	    all_obs = all_obs[:,:,:] #
@@ -236,7 +236,8 @@ if __name__ == "__main__":
 	wrfout1 = data_path+'wrfout_d01_%s_%s'%(case_name,mode)
 	wrfout2 = data_path+'wrfout_d02_%s_%s'%(case_name,mode)
 
-	#Data preparation for plot	
+	#Data preparation for plot
+	#embed()	
 	CLONG_D02,CLAT_D02,WRFOUT_P_D02,U2,V2 = WRF(wrfout2)
 	CLONG_D01,CLAT_D01,WRFOUT_P_D01,U,V = WRF(wrfout1)
 	x,long_obs,y,lat_obs,z,monthly_obs = get_rain_obs_x_y_z(data_path,case_name,mode,simulation_days)
@@ -315,6 +316,6 @@ if __name__ == "__main__":
                 if WRFOUT_P_D02.sum(axis=0)[i][j]>3.0*10.0 or new_obs[i][j]>3.0*10.0:
 		        over_area += 1
         Cumulative_error = abs(new_obs-WRFOUT_P_D02.sum(axis=0)).sum()/over_area/3.0
-	print "%s_rainfall_cumulative_error_is: "%(case_name),Cumulative_error,"mm"
+	print "%s_rainfall_cumulative_error_is: "%(case_name),Cumulative_error
 	print "Rain_Score_%s_%s_is: "%(case_name,mode),score
 
