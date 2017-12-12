@@ -33,9 +33,9 @@ def fill_value_to_normal_mean_value(seq):
     return seq
 def write_data_file():
     f=open("./Objectives_%s.txt"%filename.split('.')[-2],'w')
-    f.write("Amount_error -TS_score Pressure_error Speed_error\n")
+    f.write("#Amount_error TS_score Pressure_error Speed_error\n")
     for i in range(speed_list.shape[0]):
-        f.write("%s %s %s %s\n"%(round(cumulative_list[i],2),round(-ts_list[i]*100,2),round(pressure_list[i],2),round(speed_list[i].mean(),2)))
+        f.write("%s %s %s %s\n"%(round(cumulative_list[i],2),round(ts_list[i]*100,2),round(pressure_list[i],2),round(speed_list[i].mean(),2)))
     f.close()
 #
 
@@ -47,6 +47,7 @@ if __name__ == "__main__":
         pressure_list = get_list("Pressure_")
         cumulative_list = get_list("_rainfall_cumulative_error_is:")
         ts_list = get_list("Rain_Score_")
+
         speed_list = fill_value_to_normal_mean_value(speed_list)
         pressure_list = fill_value_to_normal_mean_value(pressure_list)
         cumulative_list = fill_value_to_normal_mean_value(cumulative_list)
