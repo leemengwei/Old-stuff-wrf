@@ -166,7 +166,7 @@ def get_TS(predicted_rain,observation):
 	return score
 def modification(delta_def,delta_opt,seq_def,seq_opt,who):
     if delta_def.mean() < delta_opt.mean():
-        print "Shit %s!!!!!!!!!!!! Anyway..............."%who
+        print "%sAnyhow..."%who
         tmp,tmp1 = delta_opt,seq_opt
         delta_opt,seq_opt = delta_def,seq_def
         delta_def,seq_def = tmp,tmp1
@@ -235,9 +235,11 @@ if __name__ == "__main__":
 	data_path = platform_judge()
 	wrfout1 = data_path+'wrfout_d01_%s_%s'%(case_name,mode)
 	wrfout2 = data_path+'wrfout_d02_%s_%s'%(case_name,mode)
+	wrfout2_def = data_path+'wrfout_d02_%s_%s'%(case_name,"default")
 
 	#Data preparation for plot
 	#embed()	
+	CLONG_D02_def,CLAT_D02_def,WRFOUT_P_D02_def,U2_def,V2_def = WRF(wrfout2_def)
 	CLONG_D02,CLAT_D02,WRFOUT_P_D02,U2,V2 = WRF(wrfout2)
 	CLONG_D01,CLAT_D01,WRFOUT_P_D01,U,V = WRF(wrfout1)
 	x,long_obs,y,lat_obs,z,monthly_obs = get_rain_obs_x_y_z(data_path,case_name,mode,simulation_days)
@@ -245,15 +247,15 @@ if __name__ == "__main__":
 	#Start plot:
 	if plot_map:
 		#__________________________FIG2: WRF_D02
-#		new_plot(CLONG_D02,CLAT_D02,WRFOUT_P_D02.sum(axis=0),"%s_WRF_d02_%s_output"%(case_name,mode))   #pres_wrfout_day1,pres_wrfout_day2,pres_wrfout_day3 = WRFOUT_P[0],WRFOUT_P[1],WRFOUT_P[2]
+		new_plot(CLONG_D02,CLAT_D02,WRFOUT_P_D02.sum(axis=0),"%s_WRF_d02_%s_output"%(case_name,mode))   #pres_wrfout_day1,pres_wrfout_day2,pres_wrfout_day3 = WRFOUT_P[0],WRFOUT_P[1],WRFOUT_P[2]
 		#__________________________FIG1: WRF_D01
-#		new_plot(CLONG_D01,CLAT_D01,WRFOUT_P_D01.sum(axis=0),"%s_WRF_d01_%s_output"%(case_name,mode))
+		new_plot(CLONG_D01,CLAT_D01,WRFOUT_P_D01.sum(axis=0),"%s_WRF_d01_%s_output"%(case_name,mode))
 		#__________________________FIG3: OBS WHOLE China
-#		new_plot(long_obs,lat_obs,z,"%s_observation"%case_name)
+		new_plot(long_obs,lat_obs,z,"%s_observation"%case_name)
 		#__________________________FIG4 interped OBS at WRF_D02
-#		new_plot(CLONG_D02,CLAT_D02,new_obs,"%s_interpolated_observation"%case_name)
+		new_plot(CLONG_D02,CLAT_D02,new_obs,"%s_interpolated_observation"%case_name)
 		#__________________________FIG5 |OBS-wrfout| at D02
-#		new_plot(CLONG_D02,CLAT_D02,abs(new_obs-WRFOUT_P_D02.sum(axis=0)),"%s_residual_observation_vs_%s"%(case_name,mode))
+		new_plot(CLONG_D02,CLAT_D02,abs(new_obs-WRFOUT_P_D02.sum(axis=0)),"%s_residual_observation_vs_%s"%(case_name,mode))
 		#cumulative_error_plot(CLONG_D02,CLAT_D02,monthly_obs,"%s_rainfall_cumulative_error"%(case_name))
 		#__________________________Monthly Observation Animation:
 		if animation:
@@ -286,6 +288,7 @@ if __name__ == "__main__":
 	speed_this = eval("speed_%s"%case_name)
 	#print "SpeedSeq obs:",speed_this
 	#print "PressureSeq obs:",pressure_this
+	score_def = get_TS(WRFOUT_P_D02_def,new_obs)
 	score = get_TS(WRFOUT_P_D02,new_obs)
 
 	#Evaluating on default and optimized Speed & Pressure
@@ -315,7 +318,15 @@ if __name__ == "__main__":
             for j in range(WRFOUT_P_D02.shape[2]):
                 if WRFOUT_P_D02.sum(axis=0)[i][j]>3.0*10.0 or new_obs[i][j]>3.0*10.0:
 		        over_area += 1
+	over_area_def = 0
+        for i in range(WRFOUT_P_D02_def.shape[1]):
+            for j in range(WRFOUT_P_D02_def.shape[2]):
+                if WRFOUT_P_D02_def.sum(axis=0)[i][j]>3.0*10.0 or new_obs[i][j]>3.0*10.0:
+		        over_area_def += 1
+
         Cumulative_error = abs(new_obs-WRFOUT_P_D02.sum(axis=0)).sum()/over_area/3.0
-	print "%s_rainfall_cumulative_error_is: "%(case_name),Cumulative_error
-	print "Rain_Score_%s_%s_is: "%(case_name,mode),score
+        Cumulative_error_def = abs(new_obs-WRFOUT_P_D02_def.sum(axis=0)).sum()/over_area_def/3.0
+#	embed()
+	print "%s_rainfall_cumulative_error_improved: %s%% "%(case_name,round((Cumulative_error_def-Cumulative_error)/Cumulative_error*100.0,3)),"from",Cumulative_error_def,"to",Cumulative_error
+	print "Rain_Score_%s_improved: %s%% "%(case_name,round((score-score_def)/score*100.0,2)),"from",score_def,"to",score
 
