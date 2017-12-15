@@ -61,18 +61,31 @@ def new_plot(longitude,latitude,rain,my_title):
 		innermap = map
         if my_title.find("Hourly")>=0:
             max_this = 16.0
+	    vmin_this = 0.0
         elif my_title.find("Daily")>=0:
             max_this = 50.0
+	    vmin_this = 0.0
+	elif my_title.find("TS")>=0:
+	    max_this = 4.0
+	    vmin_this = -4.0
         else:
-            max_this = 150.0
+	    rain = rain/3.0
+            max_this = 50.0
+	    vmin_this = 0.0
         rain[np.where(rain>max_this)] = max_this
 	#embed()
-	map.contourf(x,y,rain,180,cmap="gist_ncar_r",vmin=0,vmax=max_this)#gist_ncar_r")#cmap ok: ocean_r,spectral_r
-	map.colorbar()
+	if my_title.find("TS")>=0:
+	    #norm = matplotlib.colors.Normalize(vmin=rain.min(), vmax=rain.max())
+	    ts_variantion_range = np.linspace(rain.min(),rain.max(),int(rain.max()-rain.min()+1))
+	    map.contourf(x,y,rain,np.arange(rain.min()-0.5,rain.max()+1.5),cmap=matplotlib.cm.RdYlGn)
+	    map.colorbar(ticks=ts_variantion_range)
+	else:
+	    map.contourf(x,y,rain,180,cmap="gist_ncar_r",vmin=vmin_this,vmax=max_this)#gist_ncar_r")#cmap ok: ocean_r,spectral_r
+	    map.colorbar()
+
 	map.drawcoastlines()
 	map.drawcountries()
 	map.drawmeridians(np.round(np.linspace(longitude.min(),longitude.max(),num_cord),2),labels=[0,0,0,1])
-	#(np.linspace(LONG_OBS.min(),LONG_OBS.max(),6),labels=[0,0,0,1])#vertical
 	map.drawparallels(np.round(np.linspace(latitude.min(),latitude.max(),num_cord),2),labels=[1,0,0,0])
 
 	if my_title.find('d01')>0:
@@ -154,7 +167,6 @@ def interp_obs(x,y,z,CLONG_D02,CLAT_D02):
 	#________________________Interp obs to D02
 	from scipy import interpolate
 	func = interpolate.interp2d(x,y,z,'cubic')
-	#from IPython import embed;embed()
 	new_obs = func(CLONG_D02[0],CLAT_D02.T[0])
 	return new_obs
 #____________________________________Compute Objectives
@@ -162,8 +174,8 @@ def interp_obs(x,y,z,CLONG_D02,CLAT_D02):
 def get_TS(predicted_rain,observation):
 	import dataoutTS_duan
 	i=99
-	storm_ts,heavy_ts,moderate_ts,light_ts,score = dataoutTS_duan.ts(predicted_rain.sum(axis=0),observation,i)
-	return score
+	storm_ts,heavy_ts,moderate_ts,light_ts,score,mask = dataoutTS_duan.ts(predicted_rain.sum(axis=0),observation,i)
+	return score,mask
 def modification(delta_def,delta_opt,seq_def,seq_opt,who):
     if delta_def.mean() < delta_opt.mean():
         print "%sAnyhow..."%who
@@ -244,6 +256,9 @@ if __name__ == "__main__":
 	CLONG_D01,CLAT_D01,WRFOUT_P_D01,U,V = WRF(wrfout1)
 	x,long_obs,y,lat_obs,z,monthly_obs = get_rain_obs_x_y_z(data_path,case_name,mode,simulation_days)
 	new_obs = interp_obs(x,y,z,CLONG_D02,CLAT_D02)
+	score_def,mask_def = get_TS(WRFOUT_P_D02_def,new_obs)
+	score,mask = get_TS(WRFOUT_P_D02,new_obs)
+
 	#Start plot:
 	if plot_map:
 		#__________________________FIG2: WRF_D02
@@ -256,6 +271,8 @@ if __name__ == "__main__":
 		new_plot(CLONG_D02,CLAT_D02,new_obs,"%s_interpolated_observation"%case_name)
 		#__________________________FIG5 |OBS-wrfout| at D02
 		new_plot(CLONG_D02,CLAT_D02,abs(new_obs-WRFOUT_P_D02.sum(axis=0)),"%s_residual_observation_vs_%s"%(case_name,mode))
+		#__________________________FIG6 Display of TS improvement at WRF_D02
+		new_plot(CLONG_D02,CLAT_D02,mask-mask_def,"%s_TS_grade_change_at_D02"%case_name)
 		#cumulative_error_plot(CLONG_D02,CLAT_D02,monthly_obs,"%s_rainfall_cumulative_error"%(case_name))
 		#__________________________Monthly Observation Animation:
 		if animation:
@@ -288,8 +305,6 @@ if __name__ == "__main__":
 	speed_this = eval("speed_%s"%case_name)
 	#print "SpeedSeq obs:",speed_this
 	#print "PressureSeq obs:",pressure_this
-	score_def = get_TS(WRFOUT_P_D02_def,new_obs)
-	score = get_TS(WRFOUT_P_D02,new_obs)
 
 	#Evaluating on default and optimized Speed & Pressure
 	#DEFAULTED:

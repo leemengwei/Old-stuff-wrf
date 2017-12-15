@@ -51,6 +51,8 @@ def ts(wrfout,obs,ii):
     LR = 0.
     Hit_LR = 0.
     denominator_LR = 0.
+    mask = np.zeros([sizea,sizeb])
+   # mask[:] = np.nan
     for i in range(0,sizea):
         for j in range(0,sizeb):
 
@@ -68,6 +70,7 @@ def ts(wrfout,obs,ii):
                 #if(wrfout[i,j] > 50. and wrfout[i,j] < 250.):
 		if(wrfout[i,j] > 50.*days):
                     Hit_CRS = Hit_CRS+1
+		    mask[i,j] = 4
             #if(obs[i,j] > 50. and obs[i,j] < 250. or wrfout[i,j] > 50. and wrfout[i,j] < 250.):
 	    if(obs[i,j] > 50.*days or wrfout[i,j] > 50.*days):
                 denominator_CRS = denominator_CRS+1
@@ -78,6 +81,7 @@ def ts(wrfout,obs,ii):
                 #if(wrfout[i,j] > 25. and wrfout[i,j] < 50.):
 		if(wrfout[i,j] > 25.*days):
                     Hit_HR = Hit_HR+1
+		    mask[i,j] = 3
             #if(obs[i,j] > 25. and obs[i,j] < 50. or wrfout[i,j] > 25. and wrfout[i,j] < 50.):
 	    if(obs[i,j] > 25.*days or wrfout[i,j] > 25.*days):
                 denominator_HR = denominator_HR+1
@@ -88,6 +92,7 @@ def ts(wrfout,obs,ii):
                 #if(wrfout[i,j] > 10. and wrfout[i,j] < 25.):
 		if(wrfout[i,j] > 10.*days):
                     Hit_MR = Hit_MR+1
+		    mask[i,j] = 2
             #if(obs[i,j] > 10. and obs[i,j] < 25. or wrfout[i,j] > 10. and wrfout[i,j] < 25.):
 	    if(obs[i,j] > 10.*days or wrfout[i,j] > 10.*days):
                 denominator_MR = denominator_MR+1
@@ -96,6 +101,7 @@ def ts(wrfout,obs,ii):
                 LR = LR+1
                 if(wrfout[i,j] < 10.*days):
                     Hit_LR = Hit_LR+1
+		    mask[i,j] = 1
             if(obs[i,j] < 10.*days or wrfout[i,j] < 10.*days):
                 denominator_LR = denominator_LR+1
 
@@ -164,7 +170,7 @@ def ts(wrfout,obs,ii):
     #print "Day %s Rainstorm TS:"%ii,objective_Rainstorm_TS,"HeavyRain TS:",objective_HeavyRain_TS,"ModerateRain TS:",objective_ModerateRain_TS,"LightRain TS:",objective_LightRain_TS
     score = weight_rs*objective_Rainstorm_TS+weight_hr*objective_HeavyRain_TS+weight_mr*objective_ModerateRain_TS+weight_lr*objective_LightRain_TS
     if ifplot == 'n':
-        return objective_Rainstorm_TS,objective_HeavyRain_TS,objective_ModerateRain_TS,objective_LightRain_TS,score
+        return objective_Rainstorm_TS,objective_HeavyRain_TS,objective_ModerateRain_TS,objective_LightRain_TS,score,mask
 ##----------PLOT--------------
 #
 #    norm = matplotlib.colors.Normalize(vmin=0, vmax=100)
