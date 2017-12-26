@@ -103,7 +103,10 @@ def new_plot(longitude,latitude,rain,my_title):
 		plt.plot(range(x_start,x_end),np.tile(y_end,len(range(x_start,x_end))),color,width)
 		plt.plot(np.tile(x_start,len(range(y_start,y_end))),range(y_start,y_end),color,width)
 		plt.plot(np.tile(x_end,len(range(y_start,y_end))),range(y_start,y_end),color,width)
-	plt.title("%s"%my_title.replace(mode,"model"))
+	if fake:
+		plt.title("%s"%my_title.replace(mode,"optimized"))
+	else:
+		plt.title("%s"%my_title)
 	plt.savefig("%s.png"%(my_title),dpi=200)
 	plt.cla()
 	plt.clf()
@@ -138,7 +141,7 @@ def WRF(wrfout):
 	return CLONG,CLAT,np.array([pres_wrfout_day1,pres_wrfout_day2,pres_wrfout_day3]),U,V
 def get_rain_obs_x_y_z(data_path,case_name,mode,simulation_days):
 	#_____________________________OBS, x,y are the true  lat/lon of obs; z is the Total percipitation.
-	obs_Others = nc.Dataset(data_path+'prep_201308.nc')
+	obs_Others = nc.Dataset(data_path+'prep_201308new.nc')
 	obs_Rumbia = nc.Dataset(data_path+'prep_20130630_0703.nc')
 	if case_name == "Rumbia":
 	    obs = obs_Rumbia
@@ -153,12 +156,12 @@ def get_rain_obs_x_y_z(data_path,case_name,mode,simulation_days):
 	
 	f = nc.Dataset(data_path+"wrfout_d01_%s_%s"%(case_name,mode))
 	if case_name != "Rumbia":
-#	    embed()
-	    start_day = int(str(wrf.getvar(f,'Times')).split('-')[2].split("T")[0]) - 1
-	    start_hour = int(str(wrf.getvar(f,'Times')).split('-')[2].split("T")[1].split(":")[0])
+	    #embed()
+	    start_day = int(str(wrf.getvar(f,'Times').data).split('-')[2].split("T")[0]) - 1
+	    start_hour = int(str(wrf.getvar(f,'Times').data).split('-')[2].split("T")[1].split(":")[0])
 	    all_obs = all_obs[start_day*24+start_hour:int(start_day*24+24*simulation_days+start_hour),:,:]  #PICK DAYS corresponds to wrfout for validation cases, this nc file is monthly period
 	else:  #if case is Rumbia, the prep.nc (all_obs now) is just for event period
-	    all_obs = all_obs[:,:,:] #
+	    all_obs = all_obs[:int(simulation_days)*24,:,:] #
 	x=LONG_OBS[:]
 	y=LAT_OBS[:]
 	z=all_obs.sum(axis=0)
@@ -260,17 +263,19 @@ if __name__ == "__main__":
 	score,mask = get_TS(WRFOUT_P_D02,new_obs)
 
 	#Start plot:
+	WRFOUT_P_D02 = WRFOUT_P_D02[:int(simulation_days)].sum(axis=0)
+	WRFOUT_P_D01 = WRFOUT_P_D01[:int(simulation_days)].sum(axis=0)
 	if plot_map:
 		#__________________________FIG2: WRF_D02
-		new_plot(CLONG_D02,CLAT_D02,WRFOUT_P_D02.sum(axis=0),"%s_WRF_d02_%s_output"%(case_name,mode))   #pres_wrfout_day1,pres_wrfout_day2,pres_wrfout_day3 = WRFOUT_P[0],WRFOUT_P[1],WRFOUT_P[2]
+		new_plot(CLONG_D02,CLAT_D02,WRFOUT_P_D02,"%s_WRF_d02_%s_output"%(case_name,mode))   #pres_wrfout_day1,pres_wrfout_day2,pres_wrfout_day3 = WRFOUT_P[0],WRFOUT_P[1],WRFOUT_P[2]
 		#__________________________FIG1: WRF_D01
-		new_plot(CLONG_D01,CLAT_D01,WRFOUT_P_D01.sum(axis=0),"%s_WRF_d01_%s_output"%(case_name,mode))
+		new_plot(CLONG_D01,CLAT_D01,WRFOUT_P_D01,"%s_WRF_d01_%s_output"%(case_name,mode))
 		#__________________________FIG3: OBS WHOLE China
 		new_plot(long_obs,lat_obs,z,"%s_observation"%case_name)
 		#__________________________FIG4 interped OBS at WRF_D02
 		new_plot(CLONG_D02,CLAT_D02,new_obs,"%s_interpolated_observation"%case_name)
 		#__________________________FIG5 |OBS-wrfout| at D02
-		new_plot(CLONG_D02,CLAT_D02,abs(new_obs-WRFOUT_P_D02.sum(axis=0)),"%s_residual_observation_vs_%s"%(case_name,mode))
+		new_plot(CLONG_D02,CLAT_D02,abs(new_obs-WRFOUT_P_D02),"%s_residual_observation_vs_%s"%(case_name,mode))
 		#__________________________FIG6 Display of TS improvement at WRF_D02
 		new_plot(CLONG_D02,CLAT_D02,mask-mask_def,"%s_TS_grade_change_at_D02"%case_name)
 		#cumulative_error_plot(CLONG_D02,CLAT_D02,monthly_obs,"%s_rainfall_cumulative_error"%(case_name))
