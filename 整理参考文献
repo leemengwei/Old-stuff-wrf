@@ -1,0 +1,138 @@
+[1*]Almanac article: Fact Monster.© 2000–2013 Sandbox Networks, Inc., publishing as Fact Monster.01 Nov. 2016 http://www.factmonster.com/ipka/A0775896.html
+
+[2*]Recent studies on tropical cyclone land falling in China; Lei Xiaotu, Shanghai Typhoon Institute CMA, Shanghai, China
+
+[3]Duan Q, Schaake J, Andréassian V, et al. Model Parameter Estimation Experiment (MOPEX): An overview of science strategy and major results from the second and third workshops[J]. Journal of Hydrology, 2006, 320(1–2):3-17.
+
+[4]Chunchieh W U, Bender M A. Typhoon Forecast with the GFDL Hurricane Model: Forecast Skill and Comparison of Predictions using AVN and NOGAPS Global Analysis[J]. Journal of the Meteorological Society of Japan, 2000, 78(6):777-788.
+
+[5]Emanuel K. A Similarity Hypothesis for Air-Sea Exchange at Extreme Wind Speeds.[J]. Journal of the Atmospheric Sciences, 2003, 60(11):1420-1428.
+
+[6]Moon I J, Ginis I, Hara T. Effect of surface waves on Charnock coefficient under tropical cyclones[J]. Geophysical Research Letters, 2004, 31(20):379-398.
+
+[7]Davis C, Wang W, Chen S S, et al. Prediction of Landfalling Hurricanes with the Advanced Hurricane WRF Model[J]. Monthly Weather Review, 2008, 136(6):1990-2005.
+
+[8]Ma L M, Tan Z M. Improving the behavior of the cumulus parameterization for tropical cyclone prediction: Convection trigger[C]// 全国优秀青年气象科技工作者学术研讨会. 2010:190-211.
+
+[9]Chen S S, Price J F, Zhao W, et al. The CBLAST-Hurricane Program and the Next-Generation Fully Coupled Atmosphere Wave Ocean Models for Hurricane Research and Prediction[J]. Bulletin of the American Meteorological Society, 2007, 88(3):311-317.
+
+[10*]Ueno, M., 1989: Operational bogussing and numerical prediction of typhoon in JMA. JMA/NPD technical report, No. 28, 48 pp. 
+
+[11]Goerss J S, Jeffries R A. Assimilation of Synthetic Tropical Cyclone Observations into the Navy Operational Global Atmospheric Prediction System[J]. Weather & Forecasting, 1994, 9(4):557-576.
+
+[12]Zou X, Xiao Q. Studies on the Initialization and Simulation of a Mature Hurricane Using a Variational Bogus Data Assimilation Scheme.[J]. Journal of the Atmospheric Sciences, 2010, 57(6):836-860.
+
+[13]Davidson N E, Weber H C. The BMRC High-Resolution Tropical Cyclone Prediction System: TC-LAPS[J]. Monthly Weather Review, 2010, 128(5):1245.
+
+[14]Kurihara Y, Bender M A, Ross R J. An Initialization Scheme of Hurricane Models by Vortex Specification[J]. Monthly Weather Review, 1993, 121(7):2030.
+
+[15]Hendricks E A, Peng M S, Ge X, et al. Performance of a Dynamic Initialization Scheme in the Coupled Ocean-Atmosphere Mesoscale Prediction System for Tropical Cyclones (COAMPS-TC)[J]. Wea Forecasting, 2011, 26(5):650-663.
+
+[16]Sorooshian S, Duan Q, Gupta V K. Calibration of rainfall‐runoff models: Application of global optimization to the Sacramento Soil Moisture Accounting Model[J]. Water Resources Research, 1993, 29(4):1185–1194.
+
+[17]Gilmore M S, Straka J M, Rasmussen E N. Precipitation Uncertainty Due to Variations in Precipitation Particle Parameters within a Simple Microphysics Scheme[J]. Monthly Weather Review, 2004, 132(11):2610.
+
+[18]Duan Q, Sorooshian S, Gupta V. Effective and efficient global optimization for conceptual rainfall‐runoff models[J]. Water Resources Research, 1992, 28(4):1015-1031.
+
+[19]Wang C, Duan Q, Tong C H, et al. A GUI platform for uncertainty quantification of complex dynamical models[J]. Environmental Modelling & Software, 2016, 76(C):1-12.
+
+[20]Gong W, Duan Q, Li J, et al. Multi-objective parameter optimization of common land model using adaptive surrogate modeling[J]. Hydrology & Earth System Sciences Discussions, 2014, 11(5):2409-2425.
+
+[21]Leary S J, Bhaskar A, Keane A J. A Derivative Based Surrogate Model for Approximating and Optimizing the Output of an Expensive Computer Simulation[J]. Journal of Global Optimization, 2004, 30(1):39-58.
+
+[22]Di Z, Duan Q, Quan J P. Assessing WRF Model Parameter Sensitivity and Optimization: A Case Study with 5-day Summer Precipitation Forecasting in the Greater Beijing Area[C]// EGU General Assembly Conference. EGU General Assembly Conference Abstracts, 2015.
+
+[23]Li J D, Duan Q Y, Gong W, et al. Assessing parameter importance of the Common Land Model based on qualitative and quantitative sensitivity analysis[J]. Hydrology & Earth System Sciences Discussions, 2013, 17(8):3279-3293.
+
+[24]Wernli H, Paulat M, Hagen M, et al. SAL—A Novel Quality Measure for the Verification of Quantitative Precipitation Forecasts[J]. Monthly Weather Review, 2008, 136(11):4470-4487.
+
+[25]Ounpraseuth S T. Gaussian Processes for Machine Learning[J]. International Journal of Neural Systems, 2004, 14(2):69.
+
+[26]Wang C, Duan Q, Gong W, et al. An evaluation of adaptive surrogate modeling based optimization with two benchmark problems[J]. Environmental Modelling & Software, 2014, 60(76):167-179.
+
+[27]Van Nguyen H, Chen Y L. High-resolution initialization and simulations of Typhoon Morakot (2009)[J]. Monthly Weather Review, 2011, 139(5): 1463-1491.
+
+[28]Cha D H, Wang Y. A dynamical initialization scheme for real-time forecasts of tropical cyclones using the WRF model[J]. Monthly Weather Review, 2013, 141(3): 964-986. 
+
+[ap.1]Wang H, Wang Y, Xu H. Improving simulation of a tropical cyclone using dynamical initialization and large-scale spectral nudging: A case study of Typhoon Megi (2010)[J]. 气象学报英文版, 2013, 27(4):455-475.
+
+
+
+
+
+=================================================================
+old references:
+Almanac article: Fact Monster.© 2000–2013 Sandbox Networks, Inc., publishing as Fact Monster.01 Nov. 2016 http://www.factmonster.com/ipka/A0775896.html
+
+Recent studies on tropical cyclone land falling in China; Lei Xiaotu, Shanghai Typhoon Institute CMA, Shanghai, China
+
+Wang, C.F. & Li, X. &Chen, Y.T (etc), 2012. CMA satellite broadcasting system design. Journal of Applied Meteorological Science 23(1):113-120
+
+Duan, Q., Z. Di, J. Quan, C. Wang, W. Gong, Y. Gan, A. Ye, C. Miao, S. Miao, X.Liang, and S. Fan, 2016: Automatic model calibration - a new way to improve numerical weather forecasting. Bull. Amer. Meteor. Soc. doi: 10.1175/BAMS-D-15-00104.1, in press.
+
+海洋学报Acta Oceanologica Sinica,Vol.2008.04 Zhang Qing-hong1, GUO Chun-rui 1 Department of Atmospheric Science, School of Physics, Peking University, Beijing, China
+
+Chun-Chieh Wu, Morris A. Bender and Yoshio Kuriharal, Typhoon Forecast with the GFDL Hurricane Model: Forecast Skill and Comparison of Predictions- using AVN and NOGAPS Global Analyses, Journal 01 Meteorological Society 01 Japan, Vol. 78, No.6, pp. 777-788, 2000
+
+Duan, Q., Schaake, J., Andreassian, V., Franks, S., Goteti, G., Gupta, H.V., Gusev, Y.M.,Habets, F., Hall, A., Hay, L., Hogue, T., Huang, M., Leavesley, G., Liang, X.,Nasonova, O.N., Noilhan, J., Oudin, L., Sorooshian, S., Wagener, T., Wood, E.F.,2006. Model parameter estimation experiment (MOPEX): an overview of science strategy and major results from the second and third workshops. J. Hydrol.320 (1e2), 3e17.
+
+Emanuel, K. A., 2003: Asimilarity hypothesis for air–sea exchange at extreme wind speeds. J. Atmos. Sci., 60, 1420–1428.
+
+Moon, I.-J., I. Ginis, and T. Hara, 2004: Effect of surface waves on Charnock coefficient under tropical cyclones. Geophys. Res. Lett., 31, L20302, doi:10.1029/2004GL020988
+
+Davis, C., and Coauthors, 2008: Prediction of landfalling hurricanes with the Advanced Hurricane WRF model. Mon. Wea. Rev., 136, 1990–2005.
+
+Ma, L.-M., and Z.-M. Tan, 2009: Improving the behavior of the cumulus parameterization for tropical cyclone prediction: Convection trigger. Atmos. Res., 92, 190–211.
+
+Chen, S. S., J. F. Price, W. Zhao, M. A. Donelan, and E. J. Walsh, 2007: The CBLAST-Hurricane Program and the next-generation fully coupled atmosphere–wave–ocean models for hurricane research and prediction. Bull. Amer. Meteor. Soc., 88, 311–317
+
+Ueno, M., 1989: Operational bogussing and numerical prediction of typhoon in JMA. JMA/NPD Tech. Rep. 28, 48 pp.
+
+George, J. S., and R. A. Jeffries, 1994: Assimilation of synthetic tropical cyclone observations into the Navy Operational Global Atmospheric Prediction System. Wea. Forecasting, 9, 557–576.
+
+Zou, X., and Q. Xiao, 2000: Studies on the initialization and simulation of a mature hurricane using a variational bogus data assimilation scheme. J. Atmos. Sci., 57, 836–860]
+
+Davidson,N.E., andH.C.Weber, 2000: TheBMRChigh-resolution tropical cyclone prediction system: typhoon-LAPS. Mon. Wea. Rev., 128, 1245–1265.
+
+Kurihara, Y., M. A. Bender, and R. J. Ross, 1993: An initialization scheme of hurricane models by vortex specification. Mon. Wea. Rev., 121, 2030–2045.
+
+Hendricks, E. A., M. S. Peng, X. Ge, and T. Li, 2011: Performance of a dynamic initialization scheme in the Coupled Ocean–Atmosphere Mesoscale Prediction System for Tropical Cyclones (COAMPS-typhoon). Wea. Forecasting, 26, 650–663.
+
+Nguyen, H. V., and Y.-L. Chen, 2011: High-resolution initialization and simulations of Typhoon Morakot (2009). Mon. Wea. Rev.,139, 1463–1491.
+
+A GUI platform for uncertainty quantification of complex dynamical models,2015,Chen Wang, QingYun Duan, Environmental Modelling & Software 76 (2016) 1e12
+
+Duan, Q.Y., Sorooshian, S., Gupta, V., 1992. Effective and efficient global optimization for conceptual rainfall-runoff models. Water Resour. Res. 28 (4), 1015e1031.
+
+Aerosol-Cloud-Precipitation Interactions in WRF Model:Sensitivity to Autoconversion Parameterization, Journal of Meteorological Research,2015,(01):72-81.
+
+Yang B, Qian Y, Lin G, et al. Some issues in uncertainty quantification and parameter tuning: a case study of convective parameterization scheme in the WRF regional climate model[J]. Atmospheric Chemistry & Physics, 2012, 12(5):2409-2427.
+
+Di Z, Duan Q, Wei G, et al. Assessing WRF model parameter sensitivity: A case study with 5 day summer precipitation forecasting in the Greater Beijing Area[J]. Geophysical Research Letters, 2015, 42(2):579-587.
+
+Dong-Hyun Cha and Yuqing Wang, A Dynamical Initialization Scheme for Real-Time Forecasts of Tropical Cyclones Using the WRF Model, MONTHLY WEATHER REVIEW VOLUME 141 DOI: 10.1175/ 2012.
+
+Improving Simulation of a Tropical Cyclone Using Dynamical Initialization and Large-Scale Spectral Nudging: A Case Study of Typhoon Megi，2013，WANG Hui1, WANG Yuqing, and XU Haiming
+
+Recent studies on tropical cyclone land falling in China Lei Xiaotu, Shanghai Typhoon Institute CMA, Shanghai, China
+
+Saltelli, A. (2002). Making best use of model valuations to compute sensitivity indices. Computer Physics Communications 145, 280–297.
+
+A GUI platform for uncertainty quantification of complex dynamical models,2015,Chen Wang, QingYun Duan, Environmental Modelling & Software 76 (2016) 1e12
+
+ Efficient Global Optimization for Conceptual Rainfall-Runoff Models, QINGYUND UAN, SOROOSSHO ROOSHIAANN, D VIJAI GUPTA, WATERR ESOURCESR ESEARCHV, VOL. 28,N O. 4, PAGES1 015-103A1, 1992
+
+Assessing WRF model parameter sensitivity: A case study with 5 day summer precipitation forecasting in the Greater Beijing Area, 2014, Zhenhua Di
+
+Global Sensitivity Analysis: The Primer, SALTELLI, A., RATTO, M., ANDRES, T., CAMPOLONGO, F., CARIBONI, J., GATELLI, D., SAISANA, M., and TARANTOLA, S, Biometrics 65(4): 1311-1312, December 2009, DOI: 10.1111/j. 1541-0420. 2009. 01343_7.x]
+
+Assessing parameter importance of the Common Land Model based on qualitative and quantitative sensitivity analysis, J.Li, Q.Y.Duan, Hess, doi: 10.5194/hess 17-3279-2013
+
+Multi-objective parameter optimization of common land model using adaptive surrogate modeling,W. Gong, Q. Duan, HESS, 2015
+
+DDS: an efficient dynamic dimension selection algorithm for nearest neighbor search in high dimensions, Conference Paper, July 2004, DOI:10.1109/ICME.2004.1394371. Source: IEEE Xplore. Conference: Multimedia and Expo, 2004. ICME ’04. 2004 IEEE International Conference on, Volume:2
+
+Gong Wei&Qingyun Duan, Multi-objective adaptive surrogate modeling-based optimization for parameter estimation of large, complex geophysical model, Water Resources Research, DOI: 10.1002/2015WR018230
+
+
+
